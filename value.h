@@ -1,12 +1,15 @@
 
 #pragma once
 
-#include<iostream>
-#include<time.h>
+#include <iostream>
+#include <time.h>
+#include <Windows.h>
+#include <list>
 
 using namespace std;
 
 #include "Macro.h"
+#include "Flags.h"
 
 #define STAGE_WIDTH		10
 #define STAGE_HEIGHT	15
