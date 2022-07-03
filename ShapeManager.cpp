@@ -1,5 +1,7 @@
 #include "ShapeManager.h"
 #include "Rectangle.h"
+#include "StageManager.h"
+#include "Stage.h"
 
 CShapeManager* CShapeManager::m_pInst = NULL;
 
@@ -8,6 +10,8 @@ CShapeManager::CShapeManager()	:
 	m_pNextShape(NULL)
 {
 	m_pCurShape = CreateRandomShape();
+	m_pNextShape = CreateRandomShape();
+	m_iSpeed = 0;
 }
 
 CShapeManager::~CShapeManager()
@@ -25,7 +29,35 @@ CShapeManager::~CShapeManager()
 
 void CShapeManager::Update()
 {
-	m_pCurShape->MoveDown();
+	CStage* pStage = CStageManager::GetInst()->GetCurrentStage();
+
+	++m_iSpeed;
+
+	if (pStage->GetSpeed() == m_iSpeed)
+	{
+		// true일 경우 바닥에 닿았으므로 리스트에 추가하고 다음도형을 현재 도형으로
+		// 만들어준다. 그 후에 다음 도형을 생성한다.
+		if (m_pCurShape->MoveDown())
+		{
+			m_ShapeList.push_back(m_pCurShape);
+
+			m_pCurShape = m_pNextShape;
+			m_pCurShape->SetPosition(4, 0);
+
+			m_pNextShape = CreateRandomShape();
+		}
+		m_iSpeed = 0;
+	}
+
+	if (GetAsyncKeyState('A') & 0x8000)
+	{
+		m_pCurShape->MoveLeft();
+	}
+
+	if (GetAsyncKeyState('D') & 0x8000)
+	{
+		m_pCurShape->MoveRight();
+	}
 }
 
 void CShapeManager::Render()
@@ -38,6 +70,9 @@ void CShapeManager::Render()
 	}
 
 	m_pCurShape->Render();
+
+	m_pNextShape->SetPosition(12, 4);
+	m_pNextShape->RenderNext();
 }
 
 CShape* CShapeManager::CreateRandomShape()

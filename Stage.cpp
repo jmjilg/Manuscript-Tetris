@@ -1,6 +1,8 @@
 #include "Stage.h"
+#include "Core.h"
 
-CStage::CStage()
+CStage::CStage()    :
+    m_iSpeed(2)
 {
 }
 
@@ -39,4 +41,19 @@ void CStage::Render()
 
         cout << endl;
     }
+
+    for (int i = 0; i < 7; ++i)
+    {
+        CCore::GetInst()->SetConsolePos(17, i);
+        cout << "бс";
+    }
+
+    for (int i = 0; i < 6; ++i)
+    {
+        CCore::GetInst()->SetConsolePos(11 + i, 6);
+        cout << "бс";
+    }
+
+
 }
+

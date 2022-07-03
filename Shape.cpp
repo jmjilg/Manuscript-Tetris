@@ -30,8 +30,38 @@ void CShape::Render()
 {
 	for (int i = 0; i < 4; ++i)
 	{
+		int iYIndex = m_tPos.y - (3 - i);
+		if (iYIndex < 0)
+			continue;
+
 		// 콘솔창에 출력할 좌표를 설정한 후에 출력한다.
-		CCore::GetInst()->SetConsolePos(m_tPos.x, m_tPos.y - (3 - i));
+		CCore::GetInst()->SetConsolePos(m_tPos.x, iYIndex);
+		for (int j = 0; j < 4; ++j)
+		{
+			if (m_tPos.x + j >= STAGE_WIDTH)
+				continue;
+
+			if (m_cShape[i][j] == '0')
+				cout << "■";
+
+			else
+				cout << "  ";
+		}
+
+		cout << endl;
+	}
+}
+
+void CShape::RenderNext()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		int iYIndex = m_tPos.y - (3 - i);
+		if (iYIndex < 0)
+			continue;
+
+		// 콘솔창에 출력할 좌표를 설정한 후에 출력한다.
+		CCore::GetInst()->SetConsolePos(m_tPos.x, iYIndex);
 		for (int j = 0; j < 4; ++j)
 		{
 			if (m_cShape[i][j] == '0')
@@ -45,12 +75,15 @@ void CShape::Render()
 	}
 }
 
-void CShape::MoveDown()
+// 이 함수는 true를 리턴할 경우 바닥에 닿았다는 것이고 false일 경우 바닥에 닿지 않았다
+bool CShape::MoveDown()
 {
 	if (m_tPos.y == STAGE_HEIGHT - 1)
-		return;
+		return true;
 
 	++m_tPos.y;
+
+	return false;
 }
 
 void CShape::MoveLeft()

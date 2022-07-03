@@ -41,7 +41,8 @@ public:
 
 public:
 	void Render();
-	void MoveDown();
+	void RenderNext();
+	bool MoveDown();
 	void MoveLeft();
 	void MoveRight();
 

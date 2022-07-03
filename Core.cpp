@@ -40,7 +40,7 @@ void CCore::Run()
 		CStageManager::GetInst()->Run();
 		CShapeManager::GetInst()->Render();
 
-		Sleep(1000);
+		Sleep(100);
 	}
 }
 
@@ -48,6 +48,6 @@ void CCore::SetConsolePos(int x, int y)
 {
 	// 한칸은 2바이트를 사용한다. 그렇기 때문에 *2를 해준다
 	// 우리 테트리스에서는 특수문자를 사용하여 1칸을 표현하므로 * 2를 해주어야 한다.
-	COORD	pos = { x*2, y };
+	COORD	pos = { (x+1)*2, y };
 	SetConsoleCursorPosition(m_hConsole, pos);
 }
