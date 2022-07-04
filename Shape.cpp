@@ -1,5 +1,7 @@
 #include "Shape.h"
 #include "Core.h"
+#include "Stage.h"
+#include "StageManager.h"
 
 CShape::CShape()
 {
@@ -43,9 +45,6 @@ void CShape::Render()
 
 			if (m_cShape[i][j] == '0')
 				cout << "■";
-
-			else
-				cout << "  ";
 		}
 
 		cout << endl;
@@ -78,8 +77,21 @@ void CShape::RenderNext()
 // 이 함수는 true를 리턴할 경우 바닥에 닿았다는 것이고 false일 경우 바닥에 닿지 않았다
 bool CShape::MoveDown()
 {
-	if (m_tPos.y == STAGE_HEIGHT - 1)
-		return true;
+	CStage* pStage = CStageManager::GetInst()->GetCurrentStage();
+
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			if (m_cShape[i][j] == '0')
+			{
+				if (pStage->CheckBlock(m_tPos.x + j, m_tPos.y - (2 - i)))
+				{
+					return true;
+				}
+			}
+		}
+	}
 
 	++m_tPos.y;
 
@@ -88,8 +100,22 @@ bool CShape::MoveDown()
 
 void CShape::MoveLeft()
 {
-	if (m_tPos.x == 0)
+	if (m_tPos.x == 0 )
 		return;
+
+	CStage* pStage = CStageManager::GetInst()->GetCurrentStage();
+
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			if (m_cShape[i][j] == '0')
+			{
+				if (pStage->CheckBlock(m_tPos.x + j - 1, m_tPos.y - (3 - i)))
+					return;
+			}
+		}
+	}
 
 	--m_tPos.x;
 }
@@ -98,6 +124,20 @@ void CShape::MoveRight()
 {
 	if (m_tPos.x + m_iWidthCount == STAGE_WIDTH)
 		return;
+
+	CStage* pStage = CStageManager::GetInst()->GetCurrentStage();
+
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			if (m_cShape[i][j] == '0')
+			{
+				if (pStage->CheckBlock(m_tPos.x + j + 1, m_tPos.y - (3 - i)))
+					return;
+			}
+		}
+	}
 
 	++m_tPos.x;
 }

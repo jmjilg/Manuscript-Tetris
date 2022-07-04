@@ -15,6 +15,12 @@ protected:
 	int			m_iWidthCount;
 
 public:
+	char GetBlock(int x, int y)	const
+	{
+		return m_cShape[y][x];
+	}
+
+public:
 	void SetPosition(int x, int y)
 	{
 		m_tPos.x = x;
