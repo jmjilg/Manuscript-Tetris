@@ -1,5 +1,11 @@
 #include "ShapeManager.h"
 #include "Rectangle.h"
+#include "ShapeGun.h"
+#include "ShapeRGun.h"
+#include "ShapeLine.h"
+#include "ShapeS.h"
+#include "ShapeT.h"
+#include "ShapeZ.h"
 #include "StageManager.h"
 #include "Stage.h"
 
@@ -54,6 +60,11 @@ void CShapeManager::Update()
 	{
 		m_pCurShape->MoveRight();
 	}
+
+	if (GetAsyncKeyState('W') & 0x8000)
+	{
+		m_pCurShape->Rotation();
+	}
 }
 
 void CShapeManager::Render()
@@ -79,6 +90,24 @@ CShape* CShapeManager::CreateShape(SHAPE_TYPE eType)
 	{
 	case ST_RECT:
 		pShape = new CRectangle;
+		break;
+	case ST_GUN:
+		pShape = new CShapeGun;
+		break;
+	case ST_RGUN:
+		pShape = new CShapeRGun;
+		break;
+	case ST_LINE:
+		pShape = new CShapeLine;
+		break;
+	case ST_S:
+		pShape = new CShapeS;
+		break;
+	case ST_T:
+		pShape = new CShapeT;
+		break;
+	case ST_Z:
+		pShape = new CShapeZ;
 		break;
 	}
 
